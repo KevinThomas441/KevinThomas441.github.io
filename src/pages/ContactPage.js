@@ -6,15 +6,31 @@ import Button from 'react-bootstrap/Button';
 import Hero from '../components/Hero';
 import Content from '../components/Content';
 import Axios from 'axios';
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey('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')
+
+const msg = {
+  to: 'kevinthomas441@gmail.com', // Change to your recipient
+  from: 'test@example.com', // Change to your verified sender
+  subject: 'Sending with SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
+
 
 class ContactPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            email: '',
-            message: '',
+            msg: {
+                to: 'kevinthomas441@gmail.com',
+                subject: '',
+                from: '',
+                text: '',
+                html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+            },
             disabled: false,
             emailSent: null,
         }
@@ -27,7 +43,7 @@ class ContactPage extends React.Component {
         const name = target.name;
 
         this.setState({
-            [name]: value
+            [msg.subject]: value
         })
     }
 
@@ -41,28 +57,36 @@ class ContactPage extends React.Component {
             disabled: true
         });
 
-        Axios.post('http://localhost:3030/api/email', this.state)
-            .then(res => {
-                if(res.data.success) {
-                    this.setState({
-                        disabled: false,
-                        emailSent: true
-                    });
-                } else {
-                    this.setState({
-                        disabled: false,
-                        emailSent: false
-                    });
-                }
-            })
-            .catch(err => {
-                console.log(err);
+        sgMail.send(this.state.msg)
+        .then(() => {
+            console.log('Email sent')
+          })
+          .catch((error) => {
+            // console.error(error)
+          })
 
-                this.setState({
-                    disabled: false,
-                    emailSent: false
-                });
-            })
+        //  Axios.post('http://localhost:3030/api/email', this.state)
+        //     .then(res => {
+        //         if(res.data.success) {
+        //             this.setState({
+        //                 disabled: false,
+        //                 emailSent: true
+        //             });
+        //         } else {
+        //             this.setState({
+        //                 disabled: false,
+        //                 emailSent: false
+        //             });
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+
+        //         this.setState({
+        //             disabled: false,
+        //             emailSent: false
+        //         });
+        //     })
 
     }
 

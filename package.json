@@ -13,7 +13,12 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-spring": "^8.0.27"
+    "react-spring": "^8.0.27",
+    "@sendgrid/mail": "^7.2.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,5 +41,4 @@
       "last 1 safari version"
     ]
   }
-}
 }
